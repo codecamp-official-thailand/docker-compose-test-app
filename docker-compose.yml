@@ -1,0 +1,22 @@
+version: '3'
+services: 
+    database-fakebook:
+        image: 'mysql'
+        container_name: db
+        command: --init-file /data/application/init.sql
+        volumes: 
+            - ./init.sql:/data/application/init.sql
+        environment: 
+            MYSQL_ROOT_PASSWORD: 12345678
+            MYSQL_DATABASE: fakebook_database
+    backend-fakebook:
+        build: ./backend-fakebook-codecamp-5
+        restart: always
+        ports:
+            - "5510:8000"
+    frontend-fakebook:
+        build: ./frontend-fakebook-codecamp-5
+        restart: always
+        ports:
+            - "3000:3000"
+        stdin_open: true
